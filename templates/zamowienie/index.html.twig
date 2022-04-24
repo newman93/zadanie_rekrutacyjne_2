@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zamowienie index{% endblock %}
+
+{% block body %}
+    <h1>Wyszukiwarka</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form.numer_trackingowy, { 'id': 'numer' }) }}
+        {{ form_widget(form.status, { 'id': 'status' }) }}
+        <button type="button" class="btn" id="show">show</button>
+        <button type="button" class="btn" id="edit">edit</button>
+    {{ form_end(form) }}
+    </br>
+    <h1>Zamowienie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numer_trackingowy</th>
+                <th>Nadawca</th>
+                <th>Odbiorca</th>
+                <th>Zleceniodawca</th>
+                <th>Telefon</th>
+                <th>Sub_nadawca</th>
+                <th>Sub_odbiorca</th>
+                <th>Sub_zleceniodawca</th>
+                <th>status</status>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for zamowienie in zamowienies %}
+            <tr>
+                <td>{{ zamowienie.id }}</td>
+                <td>{{ zamowienie.numerTrackingowy }}</td>
+                <td>{{ zamowienie.nadawca }}</td>
+                <td>{{ zamowienie.odbiorca }}</td>
+                <td>{{ zamowienie.zleceniodawca }}</td>
+                <td>{{ zamowienie.telefon }}</td>
+                <td>{{ zamowienie.subNadawca ? 'Yes' : 'No' }}</td>
+                <td>{{ zamowienie.subOdbiorca ? 'Yes' : 'No' }}</td>
+                <td>{{ zamowienie.subZleceniodawca ? 'Yes' : 'No' }}</td>
+                <td>{{ zamowienie.status.status }}</td>
+                <td>
+                    <a href="{{ path('app_zamowienie_show', {'id': zamowienie.id}) }}">show</a>
+                    <a href="{{ path('app_zamowienie_edit', {'id': zamowienie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_zamowienie_new') }}">Create new</a>
+
+    <script>
+        $( document ).ready(function() {
+            $(document).on('click', '#show', function() {
+                 $.ajax({
+                    method: "POST",
+                    url: "{{ path('app_zamowienie_search') }}", 
+                    data: { numer: $('#numer').val(), status: $('#status').val() }
+                })
+                .done(function( result ) {
+                        let location = "{{ path('app_zamowienie_show', {'id': 'r'}) }}";
+                        if (result != '0') {
+                            window.location.href = location.replace('r', result) 
+                        }
+                });  
+             });
+            $(document).on('click', '#edit', function() {
+                 $.ajax({
+                    method: "POST",
+                    url: "{{ path('app_zamowienie_search') }}", 
+                    data: { numer: $('#numer').val(), status: $('#status').val() }
+                })
+                .done(function( result ) {
+                        let location = "{{ path('app_zamowienie_edit', {'id': 'r'}) }}";
+                        if (result != '0') {
+                            window.location.href = location.replace('r', result) 
+
+                            console.log(location.replace('r', result) )
+                        }
+                });  
+             });
+
+    
+        });
+    </script>
+{% endblock %}

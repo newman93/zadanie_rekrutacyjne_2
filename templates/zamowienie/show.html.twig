@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zamowienie{% endblock %}
+
+{% block body %}
+    <h1>Zamowienie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ zamowienie.id }}</td>
+            </tr>
+            <tr>
+                <th>Numer_trackingowy</th>
+                <td>{{ zamowienie.numerTrackingowy }}</td>
+            </tr>
+            <tr>
+                <th>Nadawca</th>
+                <td>{{ zamowienie.nadawca }}</td>
+            </tr>
+            <tr>
+                <th>Odbiorca</th>
+                <td>{{ zamowienie.odbiorca }}</td>
+            </tr>
+            <tr>
+                <th>Zleceniodawca</th>
+                <td>{{ zamowienie.zleceniodawca }}</td>
+            </tr>
+            <tr>
+                <th>Telefon</th>
+                <td>{{ zamowienie.telefon }}</td>
+            </tr>
+            <tr>
+                <th>Sub_nadawca</th>
+                <td>{{ zamowienie.subNadawca ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Sub_odbiorca</th>
+                <td>{{ zamowienie.subOdbiorca ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Sub_zleceniodawca</th>
+                <td>{{ zamowienie.subZleceniodawca ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>status</th>
+                <td>{{ zamowienie.status.status }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_zamowienie_index') }}">back to list</a>
+
+    <a href="{{ path('app_zamowienie_edit', {'id': zamowienie.id}) }}">edit</a>
+
+    {{ include('zamowienie/_delete_form.html.twig') }}
+{% endblock %}
